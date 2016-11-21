@@ -22,17 +22,17 @@ void setup() {
 }
 
 void loop() {
-
+ // nothing need to add here
 }
 
 void sp_ISR() {
   while(true){
     PowerLineTRiggerState1 = digitalRead(PowerLineTriggerPin);
-    delayMicroseconds(1); 
+    delayMicroseconds(5); 
     PowerLineTRiggerState2 = digitalRead(PowerLineTriggerPin);
     if(PowerLineTRiggerState1 and !PowerLineTRiggerState2){
       digitalWrite(ToSpinCoreHardTriggerPin, LOW);
-      delayMicroseconds(1); 
+      delayMicroseconds(10); 
       digitalWrite(ToSpinCoreHardTriggerPin, HIGH);
       break;
     }

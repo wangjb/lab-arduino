@@ -2,16 +2,16 @@ const int FromSpinCoreTriggerPin = 2; //  the number of receiving external trigg
 const int PowerLineTriggerPin = 3;  //  the number of the LED pin
 const int ToSpinCoreHardTriggerPin = 4; //  the number of sending external trigger pin
 
-
-// variables will change:
-volatile int PowerLineTRiggerState = LOW;         // variable for 60Hz trigger
+// variables will change:    
+volatile int PowerLineTRiggerState1;   // variable for 60Hz trigger
+volatile int PowerLineTRiggerState2;   // variable for 60Hz trigger
 
 void setup() {
   // initialize the pin as an input:
-  pinMode(FromSpinCoreTriggerPin, INPUT);
+  pinMode(FromSpinCoreTriggerPin, INPUT_PULLUP);
   
   // initialize the pin as an input:
-  pinMode(PowerLineTriggerPin, INPUT);
+  pinMode(PowerLineTriggerPin, INPUT_PULLUP);
   
   // initialize the pin as an output:
   pinMode(ToSpinCoreHardTriggerPin, OUTPUT);
@@ -22,19 +22,20 @@ void setup() {
 }
 
 void loop() {
-  if(PowerLineTRiggerState){
-    digitalWrite(ToSpinCoreHardTriggerPin, LOW);
-    delayMicroseconds(1); 
-    digitalWrite(ToSpinCoreHardTriggerPin, HIGH);
-    PowerLineTRiggerState = !PowerLineTRiggerState;
-    detachInterrupt(digitalPinToInterrupt(PowerLineTriggerPin));
-  }
+
 }
 
 void sp_ISR() {
-  attachInterrupt(digitalPinToInterrupt(PowerLineTriggerPin), pl_ISR, FALLING);
+  while(true){
+    PowerLineTRiggerState1 = digitalRead(PowerLineTriggerPin);
+    delayMicroseconds(1); 
+    PowerLineTRiggerState2 = digitalRead(PowerLineTriggerPin);
+    if(PowerLineTRiggerState1 and !PowerLineTRiggerState2){
+      digitalWrite(ToSpinCoreHardTriggerPin, LOW);
+      delayMicroseconds(1); 
+      digitalWrite(ToSpinCoreHardTriggerPin, HIGH);
+      break;
+    }
+  }
 }
 
-void pl_ISR() {
-  PowerLineTRiggerState = HIGH;
-}

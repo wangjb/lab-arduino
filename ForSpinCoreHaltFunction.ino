@@ -36,5 +36,5 @@ void sp_ISR() {
 }
 
 void pl_ISR() {
-  PowerLineTRiggerState = !PowerLineTRiggerState;
+  PowerLineTRiggerState = HIGH;
 }

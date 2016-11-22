@@ -10,3 +10,6 @@ Here we use arduino as a external box to receive trigger from PB, as it execute
 "WAIT" op code. With its interrupt fucntion, the arduino then enter into a mode,
 waiting for a 60 Hz trigger signal from the other line. After triggered,
 the arduino immediately send a low-state pulse to the hardware trigger port of PB.
+
+ALTERNATIVE:
+use digital switch like ADG1401 to realize
